@@ -1,12 +1,8 @@
 # version for 'time'
-sudo: true
+sudo: false
 language: perl6
 perl6:
     - latest
-
-before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -y time
 
 install:
     - rakudobrew build-zef

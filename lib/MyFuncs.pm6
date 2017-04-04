@@ -2,39 +2,32 @@ unit module MyFuncs;
 
 use Test;
 
+use File::Compare;
+
 use Proc::More :run-command;
 
-sub compare-files($f1, $f2, :$diff, :$time, :$size) is export(:compare-files) {
+my $debug = 0;
+
+sub compare-files($f1, $f2, :$time, :$size) is export(:compare-files) {
+    # default is to compare contents
     my $err = 0;
     my @fils = $f1, $f2;
 
     for @fils -> $f {
 	if !$f.IO.f {
-	    note "WARNING: File '$f' doesn't exist.";
+	    note "WARNING: File '$f' doesn't exist." if $debug;
 	    ++$err;
 	}
     }
-    return if $err;
-
-    if $diff {
-	my $s1 = slurp $f1;
-	my $s2 = slurp $f2;
-	if $s1 eq $s2 {
-	    note "NOTE: Files '$f1' and '$f2' are the same.";
-	}
-	else {
-	    note "NOTE: Files '$f1' and '$f2' are different.";
-	}
-	return;
-    }
+    return False if $err;
 
     if $size {
 	my $s1 = $f1.IO.s;
 	my $s2 = $f2.IO.s;
 	if  $s1 != $s2 {
-	    note "WARNING: Sizes of files '$f1' ($s1) and '$f2' ($s2) are different.";
+	    note "WARNING: Sizes of files '$f1' ($s1) and '$f2' ($s2) are different." if $debug;
 	}
-	return;
+	return $s1, $s2;
     }
 
     if $time {
@@ -43,11 +36,15 @@ sub compare-files($f1, $f2, :$diff, :$time, :$size) is export(:compare-files) {
 	my $m1 = $f1.IO.modified;
 	my $m2 = $f2.IO.modified;
 	if  $m1 < $m2 {
-	    note "WARNING: File '$f1' is older than '$f2'.";
+	    note "WARNING: File '$f1' is older than '$f2'." if $debug;
 	}
-	return;
+	return $m1, $m2;
 
     }
+
+    # default
+    return files_are_equal($f1, $f2);
+
 } # compare-files
 
 sub backup-file($fil, :$force) is export(:backup-file) {

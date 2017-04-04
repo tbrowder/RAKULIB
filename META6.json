@@ -14,7 +14,7 @@
         "MyFuncs" : "lib/MyFuncs.pm6"
     },
     "test-depends"     : [
-	"Test::META"
+	"Test::META", "File::Temp"
     ],
     "depends" : [
     ],

@@ -1,0 +1,26 @@
+{
+    "perl"        : "6",
+    "name"        : "MyFuncs",
+    "version"     : "*",
+    "description" : "Provides misclemllaneous functions and programs",
+    "authors"     : [ "github:tbrowder" ],
+    "license"     : "Artistic 2.0",
+    "source-url"  : "https://github.com/tbrowder/PERL6LIB/",
+    "support"     : {
+        "bugtracker" : "https://github.com/tbrowder/PERL6LIB/issues",
+        "source"     : "https://github.com/tbrowder/PERL6LIB/"
+    },
+    "provides"    : {
+        "MyFuncs" : "lib/MyFuncs.pm6"
+    },
+    "test-depends"     : [
+	"Test::META"
+    ],
+    "depends" : [
+    ],
+    "resources" : [
+    ],
+    "tags" : [
+	"functions"
+    ]
+}

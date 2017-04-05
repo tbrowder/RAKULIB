@@ -7,6 +7,6 @@ perl6:
 install:
     - rakudobrew build-zef
     # the following command avoids double-testing of the target module:
-    - git clone https://github.com/tbrowder/PERL6LIB.git
-    - zef install PERL6LIB
+    - git clone https://github.com/tbrowder/Proc-More-Perl6.git 
+    - zef install ./Proc-More-Perl6
     - zef install --depsonly .

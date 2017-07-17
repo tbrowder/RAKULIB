@@ -47,20 +47,22 @@ sub compare-files($f1, $f2, :$time, :$size) is export(:compare-files) {
 
 } # compare-files
 
-sub backup-file($fil, :$force) is export(:backup-file) {
+sub backup-file($fil, :$force, :$suff = 'bak') is export(:backup-file) {
     if !$fil.IO.f {
 	note "WARNING: File '$fil' doesn't exist.";
 	return;
     }
-    my $bfil = $fil ~ '.bak';
+    my $bfil = $fil ~ '.' ~ $suff;
     # don't overwrite an existing file!
     rename $fil, $bfil, :createonly($force);
 } # backup-file
 
-sub gen-cleartext-password($pwlen = 10) is export(:gen-cleartext-password) {
+sub gen-cleartext-password(UInt $pwlen where { $pwlen > 7} = 8) is export(:gen-cleartext-password) {
     # uses program 'pwgen'  as a good source of medium security passwords
     my $cmd = "pwgen -nvBc $pwlen 1"; # see man pwgen for details
     my $password = run-command $cmd, :out;
+    $password .= trim;
+
     return $password;
 } # gen-cleartext-password
 
@@ -74,5 +76,7 @@ sub gen-htbasic-password($user, $password) is export(:gen-htbasic-password) {
     # according to apache docs, use the passwords exactly as generated in the dbd file
     my $cmd = "htpasswd -nBb $user $password"; # see man htpasswd for details (-B uses bcrypt, most secure method)
     my $encrypted-password = run-command $cmd, :out;
+    $encrypted-password .= trim;
+
     return $encrypted-password;
 } # gen-htbasic-password

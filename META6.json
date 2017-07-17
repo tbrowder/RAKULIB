@@ -4,7 +4,7 @@
     "version"     : "*",
     "description" : "Provides misclemllaneous functions and programs",
     "authors"     : [ "github:tbrowder" ],
-    "license"     : "Artistic 2.0",
+    "license"     : "Artistic-2.0",
     "source-url"  : "https://github.com/tbrowder/PERL6LIB/",
     "support"     : {
         "bugtracker" : "https://github.com/tbrowder/PERL6LIB/issues",
